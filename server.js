@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000 ;
 // mongodb connection
 connectDB();
 
-app.get("/", (req,res)=>{
+app.get("/", async (req,res)=>{
   res.send("Welcome");
 });
 
