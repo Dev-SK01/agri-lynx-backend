@@ -10,7 +10,7 @@ const sendOtp = (req, res) => {
         const otp = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
         // email options
         const mailOptions = {
-            from: "agri-lynx@gmail.com",
+            from: "agrilynxteam@gmail.com",
             to: email,
             subject: "AGRI LYNX OTP",
             html: emailTemplate(otp)
