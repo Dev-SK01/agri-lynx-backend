@@ -14,6 +14,12 @@ router.route("/register").post(farmerController.registerFarmer);
 // create farmer produce
 router.route("/createproduce").post(farmerController.createProduce);
 
+// update farmer produce 
+router.route("/updateproduce").post(farmerController.updateProduce);
+
+// update quantity
+router.route("/updatequantity").post(farmerController.updateQuantity);
+
 // get farmerData
 router.route("/getfarmerdata").get(farmerController.getFarmerData)
 

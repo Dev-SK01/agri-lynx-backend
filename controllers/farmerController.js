@@ -4,14 +4,14 @@ const farmerDB = require("../models/FarmerSchema");
 const registerFarmer = async (req, res) => {
     try {
         const farmerRegistrationData = req.body;
-        const farmerData = await farmerDB.create(farmerRegistrationData);
-        res.status(200).send({ userId: farmerData._id, userType: "farmer" });
+        const farmerDoc = await farmerDB.create(farmerRegistrationData);
+        res.status(200).send({ userId: farmerDoc._id, userType: "farmer" });
         // logging for debugging
-        console.log("Farmer Registered : ", { userId: farmerData._id, userType: "farmer" });
+        console.log("Farmer Registered : ", { userId: farmerDoc._id, userType: "farmer" });
     } catch (err) {
-        res.status(400).send({ error: err.message });
+        res.status(400).send({ userId: null, userType: "farmer" });
         // logging for debugging
-        console.log("farmerRegister ERROR:",err.message);
+        console.log("farmerRegister ERROR:", err.message);
     }
 };
 
@@ -39,9 +39,59 @@ const getFarmerData = async (req, res) => {
         const farmerDoc = await farmerDB.findById(farmerId);
         res.status(200).send(farmerDoc);
     } catch (err) {
-       res.status(400).send({error:true});
-       console.log("GET FARMER DATA ERROR : ",err.message)
+        res.status(400).send({ error: true });
+        console.log("GET FARMER DATA ERROR : ", err.message)
     }
 };
 
-module.exports = {registerFarmer,createProduce,getFarmerData}
+// update farmer produce
+const updateProduce = async (req, res) => {
+    try {
+        const { farmer } = req.body;
+        const { listingId } = req.body;
+        const { quantity } = req.body;
+        const { price } = req.body;
+        const { minPrice } = req.body;
+        const { maxPrice } = req.body;
+        // updating farmer produce 
+        const updatedDocRes = await farmerDB.updateOne(
+            { _id: farmer.farmerId, 'produceList.listingId': listingId },
+            {
+                $set: {
+                    'produceList.$.quantity': quantity,
+                    'produceList.$.price': price,
+                    'produceList.$.minPrice': minPrice,
+                    'produceList.$.maxPrice': maxPrice,
+                }
+            });
+        res.status(200).send({ isUpdated: updatedDocRes.acknowledged });
+    } catch (err) {
+        res.status(400).send({ isUpdated: false });
+        console.log("PRODUCE UPDATE ERROR : ", err.message)
+    }
+};
+
+// update farmer produce quantity
+const updateQuantity = async (req, res) => {
+    try {
+        const { farmerId } = req.body;
+        const { listingId } = req.body;
+        const { updatedQuantity } = req.body;
+        // updating farmer produce quantity
+        const updatedDoc = await farmerDB.updateOne(
+            { _id: farmerId, 'produceList.listingId': listingId },
+            { $set: { 'produceList.$.quantity': updatedQuantity, } });
+        res.status(200).send({ isUpdated: updatedDoc.acknowledged });
+    } catch (err) {
+        res.status(400).send({ isUpdated: false });
+        console.log("PRODUCE UPDATE QUANTITY ERROR: ", err.message)
+    }
+};
+
+module.exports = {
+    registerFarmer,
+    createProduce,
+    getFarmerData,
+    updateProduce,
+    updateQuantity,
+}
