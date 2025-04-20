@@ -1,4 +1,5 @@
 const farmerDB = require("../models/FarmerSchema");
+const orderDB = require("../models/orderSchema");
 
 // farmer registration controller
 const registerFarmer = async (req, res) => {
@@ -88,10 +89,24 @@ const updateQuantity = async (req, res) => {
     }
 };
 
+// get all orders of farmer
+const getFarmerOrders = async (req,res)=> {
+    try{
+     const{farmerId} = req.query;
+     const{status} = req.query;
+     const farmerOrders = await orderDB.find({"farmer.farmerId":farmerId,orderStatus:status});
+     res.status(200).send(farmerOrders);
+    }catch(err){
+     res.status(400).send({error:true});
+     console.log("FAMER ORDERS ERROR: ",err.message);
+    }
+}
+
 module.exports = {
     registerFarmer,
     createProduce,
     getFarmerData,
     updateProduce,
     updateQuantity,
+    getFarmerOrders,
 }

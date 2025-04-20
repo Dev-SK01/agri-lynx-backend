@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 app.use(express.json());
-
+app.use(express.urlencoded())
 //  farmer routes 
 app.use("/farmer", farmerRoutes);
 
