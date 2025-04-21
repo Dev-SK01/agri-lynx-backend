@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "16660000000010080",
+      "name": "test-agri-lynx",
+      "domain": {
+        "id": "50026095858",
+        "name": "test-agri-lynx-60040205886.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "60040205886",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}

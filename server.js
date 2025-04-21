@@ -4,13 +4,21 @@ const farmerRoutes = require("./routes/farmerRoutes");
 const otpController = require("./controllers/otpController");
 const userController = require("./controllers/userController")
 const app = express();
+const cors = require("cors");
+const helmet = require("helmet");
 const PORT = process.env.PORT || 3000;
 
 // connecting mongoDB
 connectDB();
 
+// middlewares
 app.use(express.json());
-app.use(express.urlencoded())
+app.use(express.urlencoded());
+const corsOption = { origin: ["http://localhost:8080"] };
+app.use(cors(corsOption));
+// helmet headers configs
+app.use(helmet({xPoweredBy: false,}));
+
 //  farmer routes 
 app.use("/farmer", farmerRoutes);
 
@@ -27,18 +35,18 @@ app.get('/*splat', (req, res) => {
 app.post('/checkuser', userController.checkRegisteredUser);
 
 // route for sending email
-app.post("/sendotp",otpController.sendOtp);
+app.post("/sendotp", otpController.sendOtp);
 
 // route for otp verification
-app.post("/verifyotp" , otpController.verifyOtp);
+app.post("/verifyotp", otpController.verifyOtp);
+
 
 app.listen(PORT, (err) => {
   if (err) {
-    console.log(err.message);
+    console.error(err.message);
 
   } else {
     console.log(`Server listening on PORT : ${PORT} `);
-
   }
 });
 
