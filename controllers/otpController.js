@@ -3,6 +3,7 @@ const otpGenerator = require("otp-generator");
 const emailTransporter = require('../utils/sendEmail');
 const emailTemplate = require("../utils/emailTemplate");
 
+// send email otp BODY
 const sendOtp = (req, res) => {
     try {
         const { email } = req.body;
@@ -24,7 +25,6 @@ const sendOtp = (req, res) => {
                 // saving data in DB
                 const otpData = await otpDB.create({ email, otp });
                 res.status(200).send({ data: { otpData }, isnfo: info.response, message: "Email Sent" });
-                console.log("Email sent:", info.response, otpData);
             }
         });
     } catch (err) {
@@ -33,6 +33,7 @@ const sendOtp = (req, res) => {
     }
 }
 
+// verify otp QUERY
 const verifyOtp = async (req, res) => {
     try {
         const { otp } = req.query;

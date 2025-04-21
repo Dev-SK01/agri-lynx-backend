@@ -1,7 +1,9 @@
 const farmerDB = require("../models/FarmerSchema");
 const orderDB = require("../models/orderSchema");
+const logisticsDB = require("../models/logisticsSchema");
 
-// farmer registration controller
+
+// farmer registration controller BODY
 const registerFarmer = async (req, res) => {
     try {
         const farmerRegistrationData = req.body;
@@ -16,7 +18,7 @@ const registerFarmer = async (req, res) => {
     }
 };
 
-// farmer create produce controller
+// farmer create produce controller BODY
 const createProduce = async (req, res) => {
     try {
         const { farmer } = req.body;
@@ -33,7 +35,7 @@ const createProduce = async (req, res) => {
     }
 };
 
-// get farmer data controller
+// get farmer data controller BODY
 const getFarmerData = async (req, res) => {
     try {
         const { farmerId } = req.body;
@@ -45,7 +47,7 @@ const getFarmerData = async (req, res) => {
     }
 };
 
-// update farmer produce
+// update farmer produce BODY
 const updateProduce = async (req, res) => {
     try {
         const { farmer } = req.body;
@@ -72,7 +74,7 @@ const updateProduce = async (req, res) => {
     }
 };
 
-// update farmer produce quantity
+// update farmer produce quantity BODY
 const updateQuantity = async (req, res) => {
     try {
         const { farmerId } = req.body;
@@ -89,18 +91,45 @@ const updateQuantity = async (req, res) => {
     }
 };
 
-// get all orders of farmer
+// get all orders of farmer QUERY
 const getFarmerOrders = async (req,res)=> {
     try{
      const{farmerId} = req.query;
      const{status} = req.query;
-     const farmerOrders = await orderDB.find({"farmer.farmerId":farmerId,orderStatus:status});
+     const farmerOrders = await orderDB.find({"farmer.farmerId":farmerId,orderStatus:status.toLowerCase()});
      res.status(200).send(farmerOrders);
     }catch(err){
      res.status(400).send({error:true});
      console.log("FAMER ORDERS ERROR: ",err.message);
     }
-}
+};
+
+// get farmer logistics partner QUERY
+const getLogisticsPartners = async (req, res) => {
+    try {
+        const { location } = req.query;
+        const logisticsDocs = await logisticsDB.find({ district: location });
+        res.status(200).send(logisticsDocs);
+    } catch (err) {
+        res.status(400).send({ error: true });
+        console.log("GET LOGISTICS ERROR: ", err.message);
+    }
+};
+
+// book logistics partner for farmer order BODY
+const bookLogisticsPartner = async (req, res) => {
+    try {
+        const { orderId } = req.body;
+        const { bookingStatus } = req.body;
+        const { logistics } = req.body;
+        const bookedOrderDoc = await orderDB.updateOne({ orderId: orderId },
+            { $set: { bookingStatus: bookingStatus, logistics: logistics } });
+        res.status(200).send({ isBooked: bookedOrderDoc.acknowledged });
+    } catch (err) {
+        res.status(400).send({ isBooked: false });
+        console.log("LOGISTICS BOOKING ERROR: ", err.message)
+    }
+};
 
 module.exports = {
     registerFarmer,
@@ -109,4 +138,6 @@ module.exports = {
     updateProduce,
     updateQuantity,
     getFarmerOrders,
+    getLogisticsPartners,
+    bookLogisticsPartner,
 }

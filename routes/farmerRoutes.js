@@ -3,6 +3,7 @@ const router = express.Router();
 const farmerController = require("../controllers/farmerController")
 const farmerDB = require("../models/FarmerSchema");
 const orderDB = require("../models/orderSchema");
+const logisticsDB = require("../models/logisticsSchema");
 
 // /farmer route
 router.route("/").get(async (req, res) => {
@@ -26,5 +27,10 @@ router.route("/getfarmerdata").get(farmerController.getFarmerData);
 // get farmer  orders
 router.route("/getfarmerorders").get(farmerController.getFarmerOrders);
 
+// get farmer logistics partners
+router.route("/getlogistics").get(farmerController.getLogisticsPartners);
+
+// book logistics partner
+router.route("/booklogistics").post(farmerController.bookLogisticsPartner);
 
 module.exports = router;

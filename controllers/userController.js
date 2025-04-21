@@ -1,5 +1,6 @@
 const farmerDB = require("../models/FarmerSchema");
 
+// checking registered user BODY
 const checkRegisteredUser = async (req, res) => {
     try {
       if (req.body.type === "farmer") {
