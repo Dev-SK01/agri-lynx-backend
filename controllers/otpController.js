@@ -13,7 +13,7 @@ const sendOtp = (req, res) => {
         const mailOptions = {
             from: "agrilynxteam@gmail.com",
             to: email,
-            subject: "AGRI LYNX OTP",
+            subject: "AGRI LYNX",
             html: emailTemplate(otp)
         };
         // sending email
@@ -24,12 +24,13 @@ const sendOtp = (req, res) => {
             } else {
                 // saving data in DB
                 const otpData = await otpDB.create({ email, otp });
-                res.status(200).send({ data: { otpData }, isnfo: info.response, message: "Email Sent" });
+                res.status(200).send({isCodeSent: true});
+                console.log("OTP sent successfully: ", info.response);
             }
         });
     } catch (err) {
-        res.status(400).send({ message: "Error in Server" });
-        console.log("OTP SEND ERROR : ", err.message);
+        res.status(400).send({isCodeSent:false});
+        console.erroe("OTP SEND ERROR : ", err.message);
     }
 }
 
@@ -42,8 +43,8 @@ const verifyOtp = async (req, res) => {
         // sending response 
         otpData.length ? res.status(200).send({ verified: true }) : res.status(200).send({ verified: false });
     } catch (err) {
-        res.status(500).send({ error: "internal server error" });
-        console.log("VERIFY OTP ERROR :", err.message)
+        res.status(500).send({verified:false});
+        console.error("VERIFY OTP ERROR :", err.message)
     }
 }
 
