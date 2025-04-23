@@ -33,6 +33,7 @@ const logisticsSchema = new mongoose.Schema({
         district: { type: String, required: true },
         pincode: { type: String, required: true },
 });
+
 const orderSchema = new mongoose.Schema({
     orderId: { type: String, required: true },
     listingId: { type: String, required: true },

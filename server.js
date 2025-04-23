@@ -17,7 +17,7 @@ app.use(express.urlencoded());
 const corsOption = { origin: ["http://localhost:8080"] };
 app.use(cors(corsOption));
 // helmet headers configs
-app.use(helmet({xPoweredBy: false,}));
+app.use(helmet({xPoweredBy: true,}));
 
 //  farmer routes 
 app.use("/farmer", farmerRoutes);

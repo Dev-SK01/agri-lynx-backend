@@ -31,7 +31,7 @@ const createProduce = async (req, res) => {
         res.status(200).send({ isCreated: true });
     } catch (err) {
         res.status(400).send({ isCreated: false });
-        console.log("CREATE PRODUCE ERROR : ", err.message)
+        console.error("CREATE PRODUCE ERROR : ", err.message)
     }
 };
 
@@ -43,7 +43,7 @@ const getFarmerData = async (req, res) => {
         res.status(200).send(farmerDoc);
     } catch (err) {
         res.status(400).send({ error: true });
-        console.log("GET FARMER DATA ERROR : ", err.message)
+        console.error("GET FARMER DATA ERROR : ", err.message)
     }
 };
 
@@ -70,7 +70,7 @@ const updateProduce = async (req, res) => {
         res.status(200).send({ isUpdated: updatedDocRes.acknowledged });
     } catch (err) {
         res.status(400).send({ isUpdated: false });
-        console.log("PRODUCE UPDATE ERROR : ", err.message)
+        console.error("PRODUCE UPDATE ERROR : ", err.message)
     }
 };
 
@@ -87,7 +87,7 @@ const updateQuantity = async (req, res) => {
         res.status(200).send({ isUpdated: updatedDoc.acknowledged });
     } catch (err) {
         res.status(400).send({ isUpdated: false });
-        console.log("PRODUCE UPDATE QUANTITY ERROR: ", err.message)
+        console.error("PRODUCE UPDATE QUANTITY ERROR: ", err.message)
     }
 };
 
@@ -100,7 +100,7 @@ const getFarmerOrders = async (req,res)=> {
      res.status(200).send(farmerOrders);
     }catch(err){
      res.status(400).send({error:true});
-     console.log("FAMER ORDERS ERROR: ",err.message);
+     console.error("FAMER ORDERS ERROR: ",err.message);
     }
 };
 
@@ -112,7 +112,7 @@ const getLogisticsPartners = async (req, res) => {
         res.status(200).send(logisticsDocs);
     } catch (err) {
         res.status(400).send({ error: true });
-        console.log("GET LOGISTICS ERROR: ", err.message);
+        console.error("GET LOGISTICS ERROR: ", err.message);
     }
 };
 
@@ -127,7 +127,7 @@ const bookLogisticsPartner = async (req, res) => {
         res.status(200).send({ isBooked: bookedOrderDoc.acknowledged });
     } catch (err) {
         res.status(400).send({ isBooked: false });
-        console.log("LOGISTICS BOOKING ERROR: ", err.message)
+        console.error("LOGISTICS BOOKING ERROR: ", err.message)
     }
 };
 
