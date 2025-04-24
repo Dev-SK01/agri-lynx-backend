@@ -1,6 +1,6 @@
 const logisticsPartnerDB = require("../models/logisticsSchema");
 
-const logisticsPartnerRegister = async (req, res) => {
+const logisticsPartnerRegistration = async (req, res) => {
   try {
     const logisticsPartnerRegistrationData = req.body;
     const logisticsPartnerDoc = await logisticsPartnerDB.create(logisticsPartnerRegistrationData);
@@ -12,4 +12,4 @@ const logisticsPartnerRegister = async (req, res) => {
   }
 };
 
-module.exports = {logisticsPartnerRegister} ;
+module.exports = {logisticsPartnerRegistration} ;
