@@ -4,7 +4,6 @@ const farmerRoutes = require("./routes/farmerRoutes");
 const otpController = require("./controllers/otpController");
 const userController = require("./controllers/userController");
 const logisticsPartnerRoutes = require("./routes/logisticsPartnerRoutes");
-const logisticsPartnerController=require("./controllers/logisticsPartnerController")
 const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
