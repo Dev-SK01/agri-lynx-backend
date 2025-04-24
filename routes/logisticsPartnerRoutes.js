@@ -9,6 +9,6 @@ router.route("/").get(async (req, res) => {
 });
 
 //logisPartner register
-router.route("/registeration").post(logisticsPartnerController.logisticsPartnerRegister)
+router.route("/registration").post(logisticsPartnerController.logisticsPartnerRegister)
 
 module.exports = router;
