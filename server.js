@@ -8,7 +8,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const PORT = process.env.PORT || 3000;
 const ownerRoutes = require ("./routes/ownerRoutes");
-const ownerController =require ("./controllers/ownerController");
+
 
 // connecting mongoDB
 connectDB();
