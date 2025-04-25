@@ -40,12 +40,7 @@ const orderSchema = new mongoose.Schema({
     quantity: { type: String, required: true },
     price: { type: String, required: true },
     commodityPrice: { type: String, required: true },
-    orderDate: {
-        type: String, required: true, timestamps: {
-            createdAt: 'created_at',
-            updatedAt: 'updated_at'
-        }
-    },
+    orderDate: {type: String, required: true, },
     orderStatus: { type: String, required: true },
     bookingStatus: { type: String, required: true },
     commodity: { type: String, required: true },
@@ -53,6 +48,7 @@ const orderSchema = new mongoose.Schema({
     farmer: farmerSchema,
     customer: customerSchema,
     logistics:logisticsSchema,
+    month: {type:String},
 });
 
 module.exports = mongoose.model("orders",orderSchema);

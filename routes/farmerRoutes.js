@@ -33,4 +33,7 @@ router.route("/getlogistics").get(farmerController.getLogisticsPartners);
 // book logistics partner
 router.route("/booklogistics").post(farmerController.bookLogisticsPartner);
 
+//AnalyticsHistiory
+router.route("/orederanalytics").get(farmerController.getFarmerOrederAnalyticsHistory);
+
 module.exports = router;
