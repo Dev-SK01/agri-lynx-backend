@@ -6,6 +6,12 @@ const ownerController=require("../controllers/ownerController");
 router.route("/").get(async (req, res) => {
     res.status(401).send({ message: "unauthorized" });
 });
+
+// Owner Registration
 router.route("/register").post(ownerController.registerOwner);
-router.route("/producelist").get(ownerController.getMarketOwnerProduceList);
+
+// Owner ProdeuceList
+
+
+router.route("/produce").post(ownerController.getPurchasedFromSameDistrict);
 module.exports = router;
