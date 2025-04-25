@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const logisticsSchema = new mongoose.Schema({
-    logisticId:{type:String,required:true},
     name: {type:String,required:true},
     email: {type:String,required:true},
     phoneNumber: {type:String,required:true},
