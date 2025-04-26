@@ -2,7 +2,8 @@ const express = require("express");
 const connectDB = require("./models/connectDB");
 const farmerRoutes = require("./routes/farmerRoutes");
 const otpController = require("./controllers/otpController");
-const userController = require("./controllers/userController")
+const userController = require("./controllers/userController");
+const logisticRoutes =  require("./routes/logisticRoutes");
 const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
@@ -24,6 +25,7 @@ app.use(helmet({xPoweredBy: true,}));
 //  farmer routes 
 app.use("/farmer", farmerRoutes);
 app.use("/owner",ownerRoutes);
+app.use("/logistic",logisticRoutes);
 
 // app routes
 app.get("/", (req, res) => {
