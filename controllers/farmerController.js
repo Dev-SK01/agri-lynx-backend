@@ -113,137 +113,138 @@ const getFarmerOrders = async (req, res) => {
 
 // get analysis farmer order details
 const getFarmerOrederAnalyticsHistory = async (req, res) => {
-    let months = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
   try {
     const { commodity, farmerId } = req.body;
     
     const farmerOrderAnalyticsDoc = {
-    janorderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"January"}),
-    jandeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"January"}),
-    jancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"January"}),
+    janOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"January"}),
+    janDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"January"}),
+    janCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"January"}),
 
-    feborderdData :   await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"February"}),
-    febdeliverdData:  await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"February"}),
-    febcancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"February"}),
+    febOrderdData :   await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"February"}),
+    febDeliverdData:  await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"February"}),
+    febCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"February"}),
 
-    marorderdData :   await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month: "March"}),
-    mardeliverdData:  await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month: "March"}),
-    marcancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month: "March"}),
+    marOrderdData :   await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month: "March"}),
+    marDeliverdData:  await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month: "March"}),
+    marCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month: "March"}),
 
-    aprorderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"April"}),
-    aprdeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"April"}),
-    aprcancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"April"}),
+    aprOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"April"}),
+    aprDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"April"}),
+    aprCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"April"}),
 
-    mayorderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"May"}),
-    maydeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"May"}),
-    maycancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"May"}),
+    mayOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"May"}),
+    mayDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"May"}),
+    mayCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"May"}),
 
-    junorderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"June"}),
-    jundeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"June"}),
-    juncancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"June"}),
+    junOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"June"}),
+    junDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"June"}),
+    junCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"June"}),
 
-    julorderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"July"}),
-    juldeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"July"}),
-    julcancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"July"}),
+    julOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"July"}),
+    julDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"July"}),
+    julCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"July"}),
 
-    augorderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"August"}),
-    augdeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"August"}),
-    augcancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"August"}),
+    augOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"August"}),
+    augDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"August"}),
+    augCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"August"}),
 
-    seporderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"September"}),
-    sepdeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"September"}),
-    sepcancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"September"}),
+    sepOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"September"}),
+    sepDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"September"}),
+    sepCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"September"}),
 
-    octorderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"October"}),
-    octdeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"October"}),
-    octcancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"October"}),
+    octOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"October"}),
+    octDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"October"}),
+    octCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"October"}),
 
-    novorderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"November"}),
-    novdeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"November"}),
-    novcancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"November"}),
+    novOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"November"}),
+    novDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"November"}),
+    novCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"November"}),
 
-    decorderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"Decmber"}),
-    decdeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"Decmber"}),
-    deccancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"Decmber"}),
+    decOrderdData : await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "ordered",month:"Decmber"}),
+    decDeliverdData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "deliverd",month:"Decmber"}),
+    decCancelledData: await orderDB.find({commodity: commodity,"farmer.farmerId": farmerId,orderStatus: "cancelled",month:"Decmber"}),
 
     
 } 
+ 
     
     const AnalysisDetails = [
         {
         month: 'jan',
-        ordered: farmerOrderAnalyticsDoc.janorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.jandeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.jancelledData.length,
+
+        ordered: farmerOrderAnalyticsDoc.janOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.janDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.janCelledData?.length || 0,
       },
       {
         month: 'feb',
-        ordered: farmerOrderAnalyticsDoc.feborderdData.length,
-        delivered: farmerOrderAnalyticsDoc.febdeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.febcancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.febOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.febDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.febCancelledData?.length || 0,
       },
       {
         month: 'mar',
-        ordered: farmerOrderAnalyticsDoc.marorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.mardeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.marcancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.marOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.marDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.marCancelledData?.length || 0,
       },
       {
         month: 'apr',
-        ordered: farmerOrderAnalyticsDoc.aprorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.aprdeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.aprcancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.aprOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.aprDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.aprCancelledData?.length || 0,
       },
       {
         month: 'may',
-        ordered: farmerOrderAnalyticsDoc.mayorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.maydeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.maycancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.mayOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.mayDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.mayCancelledData?.length || 0,
       },
       {
         month: 'june',
-        ordered: farmerOrderAnalyticsDoc.junorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.jundeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.juncancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.junOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.junDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.junCancelledData?.length || 0,
       },
       {
         month: 'jul',
-        ordered: farmerOrderAnalyticsDoc.julorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.juldeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.julcancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.julOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.julDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.julCancelledData?.length || 0,
       },
       {
         month: 'aug',
-        ordered: farmerOrderAnalyticsDoc.augorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.augdeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.augcancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.augOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.augDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.augCancelledData?.length || 0,
       },
       {
         month: 'sep',
-        ordered: farmerOrderAnalyticsDoc.seporderdData.length,
-        delivered: farmerOrderAnalyticsDoc.sepdeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.sepcancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.sepOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.sepDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.sepCancelledData?.length || 0,
       },
       {
         month: 'oct',
-        ordered: farmerOrderAnalyticsDoc.octorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.octdeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.octcancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.octOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.octDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.octCancelledData?.length || 0,
       },
       {
         month: 'nov',
-        ordered: farmerOrderAnalyticsDoc.novorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.novdeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.novcancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.novorderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.novDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.novCancelledData?.length || 0,
       },
       {
         month: 'dec',
-        ordered: farmerOrderAnalyticsDoc.decorderdData.length,
-        delivered: farmerOrderAnalyticsDoc.decdeliverdData.length,
-        cancelled: farmerOrderAnalyticsDoc.deccancelledData.length,
+        ordered: farmerOrderAnalyticsDoc.decOrderdData?.length || 0,
+        delivered: farmerOrderAnalyticsDoc.decDeliverdData?.length || 0,
+        cancelled: farmerOrderAnalyticsDoc.decCancelledData?.length || 0,
       },
     ]
-      
+    
     res.status(200).send(AnalysisDetails);
   } catch (err) {
     res.status(400).send({ error: true });

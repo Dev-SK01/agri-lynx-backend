@@ -34,6 +34,6 @@ router.route("/getlogistics").get(farmerController.getLogisticsPartners);
 router.route("/booklogistics").post(farmerController.bookLogisticsPartner);
 
 //AnalyticsHistiory
-router.route("/orederanalytics").get(farmerController.getFarmerOrederAnalyticsHistory);
+router.route("/analytics").get(farmerController.getFarmerOrederAnalyticsHistory);
 
 module.exports = router;
