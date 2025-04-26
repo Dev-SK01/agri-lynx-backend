@@ -1,6 +1,6 @@
 const OwnerDB = require("../models/OwnerSchema");
 const farmerDB = require("../models/FarmerSchema");
-const produceDB = require("../models/produceSchema");
+const order = require("../models/orderSchema");
 const registerOwner = async (req, res) => {
     try {
         const ownerRegistrationData = req.body;
@@ -8,7 +8,7 @@ const registerOwner = async (req, res) => {
         res.status(200).send({ userId: ownerDoc._id, userType: "market" });
         console.log("Owner Registered : ", { userId: ownerDoc._id, userType: "market" });
     } catch (err) {
-        res.status(400).send({ error:true });
+        res.status(400).send({ error: true });
         console.log("OwnerRegister ERROR:", err.message);
     }
 };
@@ -24,11 +24,8 @@ const getPurchasedFromSameDistrict = async (req, res) => {
             return res.status(404).json([]);
         }
         const purchasedList = matchingFarmers.flatMap(farmer => farmer.produceList || []);
-
-
         res.status(200).json({
             message: "Purchased list from matching district farmers",
-            // district: ownerDistrict,
             purchasedList
         });
 
@@ -38,6 +35,35 @@ const getPurchasedFromSameDistrict = async (req, res) => {
     }
 };
 
+const placdeOrder = async (req, res) => {
+    try {
+        const  marketPlaceOrder  = req.body;
+        const orderDoc = await order.create(marketPlaceOrder);
+        await orderDoc.save();
+        res.status(200).send({ isCreated: true });
+    } catch (err) {
+        res.status(400).send({ isCreated: false });
+        console.error("CREATE PRODUCE ERROR : ", err.message)
+    }
+};
+
+const getDeliveredOrder = async (req, res) =>{
+    try {
+        const deliveredOrders = await order.find({ orderStatus:"Delivered" });
+        res.status(200).json(deliveredOrders);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+const getCanceledOrder = async (req, res) =>{
+    try {
+        const deliveredOrders = await order.find({ orderStatus:"Canceled" });
+        res.status(200).json(deliveredOrders);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
 
 
 
@@ -46,7 +72,10 @@ const getPurchasedFromSameDistrict = async (req, res) => {
 
 module.exports = {
     registerOwner,
-    getPurchasedFromSameDistrict
+    getPurchasedFromSameDistrict,
+    placdeOrder,
+    getDeliveredOrder,
+    getCanceledOrder
 
 
 };

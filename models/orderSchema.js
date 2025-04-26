@@ -50,6 +50,7 @@ const orderSchema = new mongoose.Schema({
     bookingStatus: { type: String, required: true },
     commodity: { type: String, required: true },
     imageUrl: { type: String, required: true },
+    month : {type: String, required: true},
     farmer: farmerSchema,
     customer: customerSchema,
     logistics:logisticsSchema,
