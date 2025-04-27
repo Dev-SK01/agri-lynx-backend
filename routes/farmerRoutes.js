@@ -22,7 +22,7 @@ router.route("/updateproduce").post(farmerController.updateProduce);
 router.route("/updatequantity").post(farmerController.updateQuantity);
 
 // get farmerData
-router.route("/getfarmerdata").get(farmerController.getFarmerData);
+router.route("/getfarmerdata").post(farmerController.getFarmerData);
 
 // get farmer  orders
 router.route("/getfarmerorders").get(farmerController.getFarmerOrders);
@@ -34,6 +34,6 @@ router.route("/getlogistics").get(farmerController.getLogisticsPartners);
 router.route("/booklogistics").post(farmerController.bookLogisticsPartner);
 
 //AnalyticsHistiory
-router.route("/analytics").get(farmerController.getFarmerOrederAnalyticsHistory);
+router.route("/analytics").post(farmerController.getFarmerOrederAnalyticsHistory);
 
 module.exports = router;

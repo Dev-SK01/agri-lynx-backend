@@ -111,7 +111,7 @@ const getFarmerOrders = async (req, res) => {
   }
 };
 
-// get analysis farmer order details
+// get analysis farmer order details BODY
 const getFarmerOrederAnalyticsHistory = async (req, res) => {
   try {
     const { commodity, farmerId } = req.body;
