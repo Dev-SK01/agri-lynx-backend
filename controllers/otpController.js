@@ -4,7 +4,7 @@ const emailTransporter = require('../utils/sendEmail');
 const emailTemplate = require("../utils/emailTemplate");
 
 // send email otp BODY
-const sendOtp = (req, res) => {
+const sendOtp = (req, res) => { 
     try {
         const { email } = req.body;
         // generating otp
