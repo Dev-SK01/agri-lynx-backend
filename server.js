@@ -3,11 +3,15 @@ const connectDB = require("./models/connectDB");
 const farmerRoutes = require("./routes/farmerRoutes");
 const otpController = require("./controllers/otpController");
 const userController = require("./controllers/userController");
+const logisticRoutes =  require("./routes/logisticRoutes");
 const logisticsPartnerRoutes = require("./routes/logisticsPartnerRoutes");
+const ownerRoutes = require ("./routes/ownerRoutes");
+
 const app = express();
 const cors = require("cors");
 const helmet = require("helmet");
 const PORT = process.env.PORT || 3000;
+
 
 // connecting mongoDB
 connectDB();
@@ -22,6 +26,8 @@ app.use(helmet({xPoweredBy: true,}));
 
 //  farmer routes 
 app.use("/farmer", farmerRoutes);
+app.use("/owner",ownerRoutes);
+app.use("/logistic",logisticRoutes);
 
 // logisticsPartner 
 app.use("/logistics", logisticsPartnerRoutes);
