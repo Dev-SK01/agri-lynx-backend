@@ -31,7 +31,7 @@ const getPurchasedFromSameDistrict = async (req, res) => {
 
     } catch (err) {
         console.error("ERROR: ", err.message);
-        res.status(500).json({ error: true, message: "Server error" });
+        res.status(400).json({ error: true, message: "Server error" });
     }
 };
 
@@ -52,7 +52,7 @@ const getDeliveredOrder = async (req, res) =>{
         const deliveredOrders = await order.find({ orderStatus:"Delivered" });
         res.status(200).json(deliveredOrders);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(400).json({ error: err.message });
     }
 }
 
@@ -61,7 +61,7 @@ const getCanceledOrder = async (req, res) =>{
         const deliveredOrders = await order.find({ orderStatus:"Canceled" });
         res.status(200).json(deliveredOrders);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(400).json({ error: err.message });
     }
 }
 
