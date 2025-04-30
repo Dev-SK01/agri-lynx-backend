@@ -1,4 +1,5 @@
 const farmerDB = require("../models/FarmerSchema");
+const otpDB = require("../models/otpSchema");
 const orderDB = require("../models/orderSchema");
 const logisticsDB = require("../models/logisticsSchema");
 
@@ -19,6 +20,31 @@ const registerFarmer = async (req, res) => {
     console.log("farmerRegister ERROR:", err.message);
   }
 };
+
+//farmer Login controller
+
+const farmerLogin = async (req , res ) => {
+  try{ 
+     const{ email , otp } = req.body;
+     const otpRecord = await otpDB.findOne({email , otp });
+     if(!otpRecord){
+      return res.status(401).send({ message : "Invalid otp or email " });
+     }
+     if( new Date() > otpRecord.expriresAt){
+      return res.status(401).send({message : "OTP Has  Expired "});  
+    }
+    const farmerDoc = await farmerDB.findOne({email});
+    if(!farmerDoc){
+      return res.status(401).send({ message : "Farmer User NOt Found "})
+    }
+    await otpDB.deleteOne({email});
+    res.status(200).send({userId : farmerDoc._id , userType:"farmer"});
+  }catch(err){
+    res.status(500).send({error : true });
+    console.error("farmerLogin  :" , err.message);
+}
+}
+
 
 // farmer create produce controller BODY
 const createProduce = async (req, res) => {
@@ -291,4 +317,5 @@ module.exports = {
   getLogisticsPartners,
   bookLogisticsPartner,
   getFarmerOrederAnalyticsHistory,
+  farmerLogin
 };
