@@ -4,7 +4,6 @@ const farmerRoutes = require("./routes/farmerRoutes");
 const otpController = require("./controllers/otpController");
 const userController = require("./controllers/userController");
 const logisticRoutes =  require("./routes/logisticRoutes");
-const logisticsPartnerRoutes = require("./routes/logisticsPartnerRoutes");
 const ownerRoutes = require ("./routes/ownerRoutes");
 
 const app = express();
@@ -22,15 +21,17 @@ app.use(express.urlencoded());
 const corsOption = { origin: ["http://localhost:8080"] };
 app.use(cors(corsOption));
 // helmet headers configs
-app.use(helmet({xPoweredBy: true,}));
+app.use(helmet({xPoweredBy: false,}));
 
 //  farmer routes 
 app.use("/farmer", farmerRoutes);
+
+// owner routes
 app.use("/owner",ownerRoutes);
+
+// logistics routes
 app.use("/logistic",logisticRoutes);
 
-// logisticsPartner 
-app.use("/logistics", logisticsPartnerRoutes);
 
 // app routes
 app.get("/", (req, res) => {

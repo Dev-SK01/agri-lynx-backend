@@ -1,17 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const logisticController = require("../controllers/logisticController");
+
+
 router.route("/").get(async (req, res) => {
     res.status(401).send({ message: "unauthorized" });
 });
-// login
-router.route("/login").get(logisticController.logisticLogin);
 
 // verify Customer
 
-router.route("/verifyorderstatus").post (logisticController.logisticVerifyCustomer);
+router.route("/verifycustomer").post (logisticController.logisticVerifyCustomer);
 
 // booking status
 router.route("/updatebookingstatus").post (logisticController.updateBookingStatus);
+
+// logistics partner registration
+router.route("/register").post(logisticController.logisticsPartnerRegistration);
+
+// logistics partner login
+router.route("/login").post(logisticController.logisticLogin);
+
 
 module.exports = router;

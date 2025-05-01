@@ -1,6 +1,9 @@
 const OwnerDB = require("../models/OwnerSchema");
 const farmerDB = require("../models/FarmerSchema");
-const order = require("../models/orderSchema");
+const orderDB = require("../models/orderSchema");
+
+
+// owner registration
 const registerOwner = async (req, res) => {
     try {
         const ownerRegistrationData = req.body;
@@ -13,8 +16,7 @@ const registerOwner = async (req, res) => {
     }
 };
 
-
-
+// owner produce list
 const getPurchasedFromSameDistrict = async (req, res) => {
     try {
         const { district } = req.body;
@@ -35,47 +37,45 @@ const getPurchasedFromSameDistrict = async (req, res) => {
     }
 };
 
-const placdeOrder = async (req, res) => {
+// owner place order
+const placeOrder = async (req, res) => {
     try {
         const  marketPlaceOrder  = req.body;
-        const orderDoc = await order.create(marketPlaceOrder);
-        await orderDoc.save();
-        res.status(200).send({ isCreated: true });
+        const orderDoc = await orderDB.create(marketPlaceOrder);
+        res.status(200).send({ ordered: true });
     } catch (err) {
-        res.status(401).send({ isCreated: false });
+        res.status(400).send({ ordered: false });
         console.error("CREATE PRODUCE ERROR : ", err.message)
     }
 };
 
+// owner delivered orders
 const getDeliveredOrder = async (req, res) =>{
     try {
-        const deliveredOrders = await order.find({ orderStatus:"delivered" });
+const {ownerId} = req.body
+        const deliveredOrders = await orderDB.find({ "customer.customerId":ownerId,orderStatus:"delivered" });
         res.status(200).json(deliveredOrders);
     } catch (err) {
-        res.status(401).json({ error: err.message });
-    }
+        res.status(401).json({ error: true});
+    } 
 }
 
+// woner cancelled orders
 const getCanceledOrder = async (req, res) =>{
     try {
-        const deliveredOrders = await order.find({ orderStatus:"canceled" });
-        res.status(200).json(deliveredOrders);
+        const {ownerId} = req.body;
+        const cancelledOrders = await orderDB.find({ "customer.customerId":ownerId,orderStatus:"cancelled" });
+        res.status(200).json(cancelledOrders);
     } catch (err) {
-        res.status(401).json({ error: err.message });
-    }
+        res.status(401).json({ error: true });        
+    } 
 }
-
-
-
-
 
 
 module.exports = {
     registerOwner,
     getPurchasedFromSameDistrict,
-    placdeOrder,
+    placeOrder,
     getDeliveredOrder,
-    getCanceledOrder
-
-
+    getCanceledOrder,
 };

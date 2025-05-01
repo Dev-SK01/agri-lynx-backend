@@ -29,7 +29,6 @@ const farmerSchema = new mongoose.Schema({
     phoneNumber: { type: String, required: true },
     alternateNumber: { type: String, required: true },
     address: { type: String, required: true },
-    postOffice: { type: String, required: true },
     taluk: { type: String, required: true },
     district: { type: String, required: true },
     pincode: { type: String, required: true },

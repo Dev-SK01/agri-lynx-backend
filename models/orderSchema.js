@@ -49,7 +49,6 @@ const orderSchema = new mongoose.Schema({
     farmer: farmerSchema,
     customer: customerSchema,
     logistics:logisticsSchema,
-    month: {type:String,required: true},
 });
 
 module.exports = mongoose.model("orders",orderSchema);
