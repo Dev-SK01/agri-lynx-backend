@@ -45,6 +45,23 @@ const farmerLogin = async (req , res ) => {
 }
 }
 
+//update farmer order status
+const updateFarmerOrderStatus = async (req , res ) => {
+  try{
+    const { orderId,status } = req.body;
+    const orderDoc = await orderDB.updateOne(
+      { orderId: orderId },
+      { $set: { orderStatus: status } }
+    );
+    res.status(200).send({isUpdated:orderDoc.acknowledged});
+  }catch(err){
+    res.status(401).send({error : true});
+    console.error("UPDATE FARMER ORDER STATUS ERROR ", err.message ); 
+  }
+ 
+
+}
+
 
 // farmer create produce controller BODY
 const createProduce = async (req, res) => {
@@ -317,5 +334,6 @@ module.exports = {
   getLogisticsPartners,
   bookLogisticsPartner,
   getFarmerOrederAnalyticsHistory,
-  farmerLogin
+  farmerLogin,
+  updateFarmerOrderStatus
 };
