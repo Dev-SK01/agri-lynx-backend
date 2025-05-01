@@ -11,7 +11,7 @@ const registerOwner = async (req, res) => {
         res.status(200).send({ userId: ownerDoc._id, userType: "market" });
         console.log("Owner Registered : ", { userId: ownerDoc._id, userType: "market" });
     } catch (err) {
-        res.status(400).send({ error: true });
+        res.status(401).send({ error: true });
         console.log("OwnerRegister ERROR:", err.message);
     }
 };
@@ -23,7 +23,7 @@ const getPurchasedFromSameDistrict = async (req, res) => {
         const matchingFarmers = await farmerDB.find({ district: district });
 
         if (matchingFarmers.length === 0) {
-            return res.status(404).json([]);
+            return res.status(401).json([]);
         }
         const purchasedList = matchingFarmers.flatMap(farmer => farmer.produceList || []);
         res.status(200).json({
@@ -33,7 +33,7 @@ const getPurchasedFromSameDistrict = async (req, res) => {
 
     } catch (err) {
         console.error("ERROR: ", err.message);
-        res.status(400).json({ error: true, message:err.message});
+        res.status(401).json({ error: true, message: "Server error" });
     }
 };
 
@@ -52,12 +52,12 @@ const placeOrder = async (req, res) => {
 // owner delivered orders
 const getDeliveredOrder = async (req, res) =>{
     try {
-        const {ownerId} = req.body
+const {ownerId} = req.body
         const deliveredOrders = await orderDB.find({ "customer.customerId":ownerId,orderStatus:"delivered" });
         res.status(200).json(deliveredOrders);
     } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
+        res.status(401).json({ error: true});
+    } 
 }
 
 // woner cancelled orders
@@ -67,8 +67,8 @@ const getCanceledOrder = async (req, res) =>{
         const cancelledOrders = await orderDB.find({ "customer.customerId":ownerId,orderStatus:"cancelled" });
         res.status(200).json(cancelledOrders);
     } catch (err) {
-        res.status(400).json({ error: err.message });
-    }
+        res.status(401).json({ error: true });        
+    } 
 }
 
 

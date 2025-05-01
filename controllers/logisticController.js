@@ -1,5 +1,7 @@
 const logisticsDB = require("../models/logisticsSchema");
 const otpDB = require("../models/otpSchema");
+const orders= require("../models/orderSchema");
+
 
 
 // logistics partner registration
@@ -29,17 +31,92 @@ const logisticLogin = async (req, res) => {
         const logisticDoc = await logisticsDB.findOne({ email });
 
         if (!logisticDoc) {
-            return res.status(404).json({ error: true, message: "Logistic user not found" });
+            return res.status(401).json({ message: "Logistic user not found" });
         }
         await otpDB.deleteOne({ email });
         res.status(200).send({ userId: logisticDoc._id, userType: "logistic" });
     } catch (err) {
-        res.status(400).json({ message: err.message, error: true });
+        res.status(401).json({ error: err.message});
+    }
+};
+
+const logisticVerifyCustomer = async (req, res) => {
+    try {
+        const { email, otp, orderId } = req.body;
+
+        const otpRecord = await otpDB.findOne({ email, otp });
+        if (!otpRecord) {
+            return res.status(401).json({ message: "Invalid OTP or email" });
+        }
+
+        if (new Date() > otpRecord.expiresAt) {
+            return res.status(401).json({ message: "OTP has expired" });
+        }
+
+        const order = await orders.findOne({ orderId, "customer.email": email });
+        if (!order) {
+            return res.status(401).json({ message: "Order not found for this customer" });
+        }
+
+        order.orderStatus = "delivered";
+        await order.save();
+
+        await otpDB.deleteOne({ email, otp });
+
+        res.status(200).json({ message: "Order marked as delivered successfully", order });
+
+    } catch (err) {
+        res.status(401).json({ error: err.message, error: true });
     }
 };
 
 
+const updateBookingStatus = async (req, res) => {
+    try {
+        const { orderId, action } = req.query;
+
+        if (!orderId || !action) {
+            return res.status(401).json({ error: ' Missing orderId or action '});
+        }
+
+        const order = await orders.findOne({ orderId }); 
+
+        if (!order) {
+            return res.status(401).json({ error: 'Order not found'});
+        }
+
+        if (order.bookingStatus !== 'pending') {
+            return res.status(401).json({ error: ' Only pending bookings can be updated '});
+        }
+
+        if (action === 'accept') {
+            order.bookingStatus = 'accepted';
+        } else if (action === 'cancel') {
+            order.bookingStatus = 'cancelled';
+        } else {
+            return res.status(401).json({ error: 'Invalid action'});
+        }
+
+        await order.save();
+
+        return res.status(200).json({
+            message: `Booking ${action}ed successfully`,
+            error: false,
+            bookingStatus: order.bookingStatus,
+            orderId:  order.orderId
+        });
+
+    } catch (err) {
+        return res.status(401).json({ error: err.message, error: true });
+    }
+};
+
+
+
+
 module.exports = {
-    logisticsPartnerRegistration,
     logisticLogin,
+    logisticVerifyCustomer,
+    updateBookingStatus
+    logisticsPartnerRegistration,
 }
