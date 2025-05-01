@@ -40,9 +40,10 @@ const getPurchasedFromSameDistrict = async (req, res) => {
 // owner place order
 const placeOrder = async (req, res) => {
     try {
-        const  marketPlaceOrder  = req.body;
+        const marketPlaceOrder = req.body;
         const orderDoc = await orderDB.create(marketPlaceOrder);
         res.status(200).send({ ordered: true });
+        console.log("Order Placed : ", { ordered: true, orderId: orderDoc._id });
     } catch (err) {
         res.status(400).send({ ordered: false });
         console.error("CREATE PRODUCE ERROR : ", err.message)
@@ -50,25 +51,25 @@ const placeOrder = async (req, res) => {
 };
 
 // owner delivered orders
-const getDeliveredOrder = async (req, res) =>{
+const getDeliveredOrder = async (req, res) => {
     try {
-const {ownerId} = req.body
-        const deliveredOrders = await orderDB.find({ "customer.customerId":ownerId,orderStatus:"delivered" });
+        const { ownerId } = req.body
+        const deliveredOrders = await orderDB.find({ "customer.customerId": ownerId, orderStatus: "delivered" });
         res.status(200).json(deliveredOrders);
     } catch (err) {
-        res.status(401).json({ error: true});
-    } 
+        res.status(401).json({ error: true });
+    }
 }
 
-// woner cancelled orders
-const getCanceledOrder = async (req, res) =>{
+// owner cancelled orders
+const getCanceledOrder = async (req, res) => {
     try {
-        const {ownerId} = req.body;
-        const cancelledOrders = await orderDB.find({ "customer.customerId":ownerId,orderStatus:"cancelled" });
+        const { ownerId } = req.body;
+        const cancelledOrders = await orderDB.find({ "customer.customerId": ownerId, orderStatus: "cancelled" });
         res.status(200).json(cancelledOrders);
     } catch (err) {
-        res.status(401).json({ error: true });        
-    } 
+        res.status(401).json({ error: true });
+    }
 }
 
 

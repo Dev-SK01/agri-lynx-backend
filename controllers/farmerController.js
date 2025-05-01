@@ -40,8 +40,8 @@ const farmerLogin = async (req , res ) => {
     await otpDB.deleteOne({email});
     res.status(200).send({userId : farmerDoc._id , userType:"farmer"});
   }catch(err){
-    res.status(500).send({error : true });
-    console.error("farmerLogin  :" , err.message);
+    res.status(401).send({error : true });
+    console.error("farmerLogin ERROR :" , err.message);
 }
 }
 
