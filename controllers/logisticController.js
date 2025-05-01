@@ -18,7 +18,7 @@ const logisticLogin = async (req, res) => {
         const logisticDoc = await logistics.findOne({ email });
 
         if (!logisticDoc) {
-            return res.status(404).json({ message: "Logistic user not found" });
+            return res.status(401).json({ message: "Logistic user not found" });
         }
 
         
@@ -26,7 +26,7 @@ const logisticLogin = async (req, res) => {
 
         res.status(200).send({userId: logisticDoc._id,userType: "logistic" });
     } catch (err) {
-        res.status(400).json({ error: err.message , error:true});
+        res.status(401).json({ error: err.message});
     }
 };
 
@@ -36,19 +36,19 @@ const logisticVerifyCustomer = async (req, res) => {
 
         const otpRecord = await otpDB.findOne({ email, otp });
         if (!otpRecord) {
-            return res.status(404).json({ message: "Invalid OTP or email" });
+            return res.status(401).json({ message: "Invalid OTP or email" });
         }
 
         if (new Date() > otpRecord.expiresAt) {
-            return res.status(404).json({ message: "OTP has expired" });
+            return res.status(401).json({ message: "OTP has expired" });
         }
 
         const order = await orders.findOne({ orderId, "customer.email": email });
         if (!order) {
-            return res.status(404).json({ message: "Order not found for this customer" });
+            return res.status(401).json({ message: "Order not found for this customer" });
         }
 
-        order.orderStatus = "Delivered";
+        order.orderStatus = "delivered";
         await order.save();
 
         await otpDB.deleteOne({ email, otp });
@@ -56,7 +56,7 @@ const logisticVerifyCustomer = async (req, res) => {
         res.status(200).json({ message: "Order marked as delivered successfully", order });
 
     } catch (err) {
-        res.status(404).json({ error: err.message, error: true });
+        res.status(401).json({ error: err.message, error: true });
     }
 };
 
@@ -66,7 +66,7 @@ const updateBookingStatus = async (req, res) => {
         const { orderId, action } = req.query;
 
         if (!orderId || !action) {
-            return res.status(400).json({ error: ' Missing orderId or action '});
+            return res.status(401).json({ error: ' Missing orderId or action '});
         }
 
         const order = await orders.findOne({ orderId }); 
@@ -75,16 +75,16 @@ const updateBookingStatus = async (req, res) => {
             return res.status(401).json({ error: 'Order not found'});
         }
 
-        if (order.bookingStatus !== 'Pending') {
-            return res.status(400).json({ error: ' Only pending bookings can be updated '});
+        if (order.bookingStatus !== 'pending') {
+            return res.status(401).json({ error: ' Only pending bookings can be updated '});
         }
 
         if (action === 'accept') {
-            order.bookingStatus = 'Accepted';
+            order.bookingStatus = 'accepted';
         } else if (action === 'cancel') {
-            order.bookingStatus = 'Cancelled';
+            order.bookingStatus = 'cancelled';
         } else {
-            return res.status(400).json({ error: 'Invalid action'});
+            return res.status(401).json({ error: 'Invalid action'});
         }
 
         await order.save();
@@ -97,7 +97,7 @@ const updateBookingStatus = async (req, res) => {
         });
 
     } catch (err) {
-        return res.status(500).json({ error: err.message, error: true });
+        return res.status(401).json({ error: err.message, error: true });
     }
 };
 

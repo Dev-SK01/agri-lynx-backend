@@ -9,9 +9,9 @@ router.route("/login").get(logisticController.logisticLogin);
 
 // verify Customer
 
-router.route("/orderstatus").post (logisticController.logisticVerifyCustomer);
+router.route("/verifyorderstatus").post (logisticController.logisticVerifyCustomer);
 
 // booking status
-router.route("/bookingstatus").post (logisticController.updateBookingStatus);
+router.route("/updatebookingstatus").post (logisticController.updateBookingStatus);
 
 module.exports = router;

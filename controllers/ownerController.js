@@ -8,7 +8,7 @@ const registerOwner = async (req, res) => {
         res.status(200).send({ userId: ownerDoc._id, userType: "market" });
         console.log("Owner Registered : ", { userId: ownerDoc._id, userType: "market" });
     } catch (err) {
-        res.status(400).send({ error: true });
+        res.status(401).send({ error: true });
         console.log("OwnerRegister ERROR:", err.message);
     }
 };
@@ -21,7 +21,7 @@ const getPurchasedFromSameDistrict = async (req, res) => {
         const matchingFarmers = await farmerDB.find({ district: district });
 
         if (matchingFarmers.length === 0) {
-            return res.status(404).json([]);
+            return res.status(401).json([]);
         }
         const purchasedList = matchingFarmers.flatMap(farmer => farmer.produceList || []);
         res.status(200).json({
@@ -31,7 +31,7 @@ const getPurchasedFromSameDistrict = async (req, res) => {
 
     } catch (err) {
         console.error("ERROR: ", err.message);
-        res.status(400).json({ error: true, message: "Server error" });
+        res.status(401).json({ error: true, message: "Server error" });
     }
 };
 
@@ -42,26 +42,26 @@ const placdeOrder = async (req, res) => {
         await orderDoc.save();
         res.status(200).send({ isCreated: true });
     } catch (err) {
-        res.status(400).send({ isCreated: false });
+        res.status(401).send({ isCreated: false });
         console.error("CREATE PRODUCE ERROR : ", err.message)
     }
 };
 
 const getDeliveredOrder = async (req, res) =>{
     try {
-        const deliveredOrders = await order.find({ orderStatus:"Delivered" });
+        const deliveredOrders = await order.find({ orderStatus:"delivered" });
         res.status(200).json(deliveredOrders);
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(401).json({ error: err.message });
     }
 }
 
 const getCanceledOrder = async (req, res) =>{
     try {
-        const deliveredOrders = await order.find({ orderStatus:"Canceled" });
+        const deliveredOrders = await order.find({ orderStatus:"canceled" });
         res.status(200).json(deliveredOrders);
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        res.status(401).json({ error: err.message });
     }
 }
 
