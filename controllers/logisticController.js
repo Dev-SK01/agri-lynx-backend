@@ -93,7 +93,7 @@ const updateBookingStatus = async (req, res) => {
             message: `Booking ${action}ed successfully`,
             error: false,
             bookingStatus: order.bookingStatus,
-            orderId: order.orderId
+            orderId:  order.orderId
         });
 
     } catch (err) {
