@@ -58,8 +58,6 @@ const updateFarmerOrderStatus = async (req , res ) => {
     res.status(401).send({error : true});
     console.error("UPDATE FARMER ORDER STATUS ERROR ", err.message ); 
   }
- 
-
 }
 
 
