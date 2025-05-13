@@ -22,4 +22,13 @@ router.route("/delivered").post(ownerController.getDeliveredOrder);
 // Owner Cancled Order
 router.route("/canceled").post(ownerController.getCanceledOrder);
 
+// Owner Produce List Search
+router.route("/search").post(ownerController.searchProduceList);
+
+// Owner Orderd
+router.route("/ordered").post(ownerController.ordered);
+
+// Owner login
+router.route("/login").post(ownerController.ownerLogin);
+
 module.exports = router;

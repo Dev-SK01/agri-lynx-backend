@@ -109,6 +109,57 @@ const updateBookingStatus = async (req, res) => {
     }
 };
 
+//logistic partner ordered
+const ordered = async (req, res) => {
+    try {
+        const { logisticsId } = req.body
+        const logisticOrderd = await orderDB.find({ "logistics.logisticsId": logisticsId, orderStatus: "booked" });
+        res.status(200).json(logisticOrderd);
+    } catch (err) {
+        res.status(401).json({ error: true });
+    }
+}
+
+//logistic partner details
+const getLogisticDetails = async (req, res) => {
+    try {
+        const { logisticsId } = req.body
+        const logisticDetails = await logisticsDB.findById(logisticsId);
+        res.status(200).json(logisticDetails);
+    }
+    catch (err) {
+        res.status(401).json({ error: true });
+        console.error("GET LOGISTIC DETAILS ERROR : ", err.message);
+    }
+};    
+
+//update logistic order status
+const updateLogisticOrderStatus = async (req , res ) => {
+  try{const { email, otp, orderId,status} = req.body;
+
+  const otpRecord = await otpDB.findOne({ email, otp });
+  if (!otpRecord) {
+      return res.status(401).json({ message: "Invalid OTP or email",error:true});
+  }
+  
+  if (new Date() > otpRecord.expiresAt) {
+      return res.status(401).json({ message: "OTP has expired",error:true});
+  }
+    
+    const orderDoc = await orderDB.updateOne(
+      { orderId: orderId },
+      { $set: { orderStatus: status } }
+    );
+    res.status(200).send({isUpdated:orderDoc.acknowledged});
+  }catch(err){
+    res.status(401).send({error : true});
+    console.error("UPDATE LOGISTIC ORDER STATUS ERROR ", err.message ); 
+  }
+ 
+
+}
+        
+
 
 
 
@@ -117,4 +168,7 @@ module.exports = {
     logisticVerifyCustomer,
     updateBookingStatus,
     logisticsPartnerRegistration,
+    ordered,
+    getLogisticDetails,
+    updateLogisticOrderStatus,
 }
