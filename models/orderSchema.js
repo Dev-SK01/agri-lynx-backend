@@ -40,12 +40,16 @@ const orderSchema = new mongoose.Schema({
     quantity: { type: String, required: true },
     price: { type: String, required: true },
     commodityPrice: { type: String, required: true },
-    orderDate: {type: String, required: true, },
+    orderDate: {
+        type: String, required: true, timestamps: {
+            createdAt: 'created_at',
+            updatedAt: 'updated_at'
+        }
+    },
     orderStatus: { type: String, required: true },
     bookingStatus: { type: String, required: true },
     commodity: { type: String, required: true },
     imageUrl: { type: String, required: true },
-    month : {type: String, required: true},
     farmer: farmerSchema,
     customer: customerSchema,
     logistics:logisticsSchema,
