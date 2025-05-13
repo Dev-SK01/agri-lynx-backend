@@ -9,12 +9,10 @@ const emailTemplate = (otp) => {
         <div class="otp-box" style="display: flex; justify-content: center; margin-bottom: 20px; align-items:"center";>
             <span id="otp" style="font-size: 20px; letter-spacing: 10px; color:green; font-weight:bold;">${otp}</span>
         </div>
-      <div>
-      <h3 style="color:green; margin-bottom: 10px;">Expires In 5 mintues</h3>
-      <p class="footer" style="margin-top: 30px; font-size: 12px; color: #95a5a6;">This is an automated email. Please do not reply.</p>
-      </div>
+        <h3 style="color:green; margin-bottom: 10px;">Expires In 5 mintues</h3>
+        <p class="footer" style="margin-top: 30px; font-size: 12px; color: #95a5a6;">This is an automated email. Please do not reply.</p>
     </div>
 </body>`
-}
+} 
 
 module.exports = emailTemplate;
