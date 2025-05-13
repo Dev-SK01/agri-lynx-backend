@@ -5,6 +5,7 @@ const logisticsDB = require("../models/logisticsSchema");
 
 // farmer registration controller BODY
 const registerFarmer = async (req, res) => {
+
   try {
     const farmerRegistrationData = req.body;
     const farmerDoc = await farmerDB.create(farmerRegistrationData);
@@ -17,9 +18,8 @@ const registerFarmer = async (req, res) => {
   } catch (err) {
     res.status(400).send({ userId: null, userType: "farmer" });
     // logging for debugging
-    console.log("farmerRegister ERROR:", err.message);
+    console.log("farmerRegister ERROR:", err.message
   }
-};
 
 //farmer Login controller
 
