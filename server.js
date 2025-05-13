@@ -54,6 +54,9 @@ app.post("/sendotp", otpController.sendOtp);
 // route for otp verification
 app.post("/verifyotp", otpController.verifyOtp);
 
+// user login single endpoint
+app.post("/login", userController.loginUser);
+
 
 app.listen(PORT, (err) => {
   if (err) {
