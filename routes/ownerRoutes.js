@@ -31,4 +31,8 @@ router.route("/ordered").post(ownerController.ordered);
 // Owner login
 router.route("/login").post(ownerController.ownerLogin);
 
+// cancel order 
+router.route("/cancelorder").post(ownerController.cancelOrder);
+
+
 module.exports = router;
