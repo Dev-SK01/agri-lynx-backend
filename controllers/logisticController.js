@@ -1,19 +1,18 @@
 const logisticsDB = require("../models/logisticsSchema");
 const otpDB = require("../models/otpSchema");
-const orders= require("../models/orderSchema");
-
+const orderDB= require("../models/orderSchema");
 
 
 // logistics partner registration
 const logisticsPartnerRegistration = async (req, res) => {
     try {
         const logisticsPartnerRegistrationData = req.body;
-        const logisticsPartnerDoc = await logisticsPartnerDB.create(logisticsPartnerRegistrationData);
+        const logisticsPartnerDoc = await logisticsDB.create(logisticsPartnerRegistrationData);
         res.status(200).send({ userId: logisticsPartnerDoc._id, userType: "logistic" });
     } catch (err) {
         // logging for debugging
         res.status(400).send({ error: true })
-        console.error("LogisticsPartnerRegister ERROR:", err.message);
+        console.error("Logistics Partner Register ERROR:", err.message);
     }
 };
 // logistics partner login
@@ -46,16 +45,16 @@ const logisticVerifyCustomer = async (req, res) => {
 
         const otpRecord = await otpDB.findOne({ email, otp });
         if (!otpRecord) {
-            return res.status(401).json({ message: "Invalid OTP or email" });
+            return res.status(401).json({ message: "Invalid OTP or email",error:true});
         }
-
+        // Check if the OTP has expired
         if (new Date() > otpRecord.expiresAt) {
-            return res.status(401).json({ message: "OTP has expired" });
+            return res.status(401).json({ message: "OTP has expired",error:true});
         }
 
-        const order = await orders.findOne({ orderId, "customer.email": email });
+        const order = await orderDB.findOne({ orderId, "customer.email": email });
         if (!order) {
-            return res.status(401).json({ message: "Order not found for this customer" });
+            return res.status(401).json({ message: "Order not found for this customer",error:true});
         }
 
         order.orderStatus = "delivered";
@@ -64,7 +63,7 @@ const logisticVerifyCustomer = async (req, res) => {
 
         await otpDB.deleteOne({ email, otp });
 
-        res.status(200).json({ message: "Order marked as delivered successfully", order });
+        res.status(200).json({isVerified: true, message: "Customer verified successfully"});
 
     } catch (err) {
         res.status(401).json({ error: err.message, error: true });
@@ -74,41 +73,40 @@ const logisticVerifyCustomer = async (req, res) => {
 
 const updateBookingStatus = async (req, res) => {
     try {
-      const { orderId, action } = req.body;
-  
-      if (!orderId || !action) {
-        return res.status(400).json({ error: "Missing orderId or action" });
-      }
-  
-      const order = await orders.findOne({ orderId });
-  
-      if (!order) {
-        return res.status(404).json({ error: "Order not found" });
-      }
-  
-      if (order.bookingStatus !== "pending") {
-        return res.status(400).json({ error: "Only pending bookings can be updated" });
-      }
-  
-      if (action === "accept") {
-        order.bookingStatus = "accepted";
-      } else if (action === "cancel") {
-        order.bookingStatus = "cancelled";
-      } else {
-        return res.status(400).json({ error: "Invalid action" });
-      }
-  
-      await order.save();
-  
-      return res.status(200).json({
-        message: `Booking ${action}ed successfully`,
-        error: false,
-        bookingStatus: order.bookingStatus,
-        orderId: order.orderId,
-      });
-  
+        const { orderId, action } = req.query;
+
+        if (!orderId || !action) {
+            return res.status(401).json({ error: ' Missing orderId or action '});
+        }
+
+        const order = await orderDB.findOne({ orderId }); 
+
+        if (!order) {
+            return res.status(401).json({ message: 'Order not found',error:true});
+        }
+
+        if (order.bookingStatus !== 'pending') {
+            return res.status(401).json({ message: ' Only pending bookings can be updated',errror:true});
+        }
+        if (action === 'accept') {
+            order.bookingStatus = 'accepted';
+        } else if (action === 'cancel') {
+            order.bookingStatus = 'cancelled';
+        } else {
+            return res.status(401).json({ error: true});
+        }
+
+        await order.save();
+
+        return res.status(200).json({
+            message: `Booking ${action}ed successfully`,
+            error: false,
+            bookingStatus: order.bookingStatus,
+            orderId:  order.orderId
+        });
+
     } catch (err) {
-      return res.status(500).json({ error: err.message, error: true });
+        return res.status(401).json({ message: err.message, error: true });
     }
   };
   
@@ -124,6 +122,57 @@ const getLogisticData = async (req, res) => {
   }
 };
 
+//logistic partner ordered
+const ordered = async (req, res) => {
+    try {
+        const { logisticsId } = req.body
+        const logisticOrderd = await orderDB.find({ "logistics.logisticsId": logisticsId, orderStatus: "booked" });
+        res.status(200).json(logisticOrderd);
+    } catch (err) {
+        res.status(401).json({ error: true });
+    }
+}
+
+//logistic partner details
+const getLogisticDetails = async (req, res) => {
+    try {
+        const { logisticsId } = req.body
+        const logisticDetails = await logisticsDB.findById(logisticsId);
+        res.status(200).json(logisticDetails);
+    }
+    catch (err) {
+        res.status(401).json({ error: true });
+        console.error("GET LOGISTIC DETAILS ERROR : ", err.message);
+    }
+};    
+
+//update logistic order status
+const updateLogisticOrderStatus = async (req , res ) => {
+  try{const { email, otp, orderId,status} = req.body;
+
+  const otpRecord = await otpDB.findOne({ email, otp });
+  if (!otpRecord) {
+      return res.status(401).json({ message: "Invalid OTP or email",error:true});
+  }
+  
+  if (new Date() > otpRecord.expiresAt) {
+      return res.status(401).json({ message: "OTP has expired",error:true});
+  }
+    
+    const orderDoc = await orderDB.updateOne(
+      { orderId: orderId },
+      { $set: { orderStatus: status } }
+    );
+    res.status(200).send({isUpdated:orderDoc.acknowledged});
+  }catch(err){
+    res.status(401).send({error : true});
+    console.error("UPDATE LOGISTIC ORDER STATUS ERROR ", err.message ); 
+  }
+ 
+
+}
+        
+
 
 module.exports = {
     logisticLogin,
@@ -131,4 +180,7 @@ module.exports = {
     updateBookingStatus,
     logisticsPartnerRegistration,
     getLogisticData
+    ordered,
+    getLogisticDetails,
+    updateLogisticOrderStatus,
 }

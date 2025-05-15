@@ -12,11 +12,17 @@ router.route("/").get(async (req, res) => {
 // register farmer
 router.route("/register").post(farmerController.registerFarmer);
 
+//login farmer
+router.route("/login").get(farmerController.farmerLogin);
+
 // create farmer produce
 router.route("/createproduce").post(farmerController.createProduce);
 
 // update farmer produce 
 router.route("/updateproduce").post(farmerController.updateProduce);
+
+//update order status
+router.route("/updateorderstatus").post(farmerController.updateFarmerOrderStatus)
 
 // update quantity
 router.route("/updatequantity").post(farmerController.updateQuantity);

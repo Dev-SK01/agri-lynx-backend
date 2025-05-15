@@ -1,9 +1,11 @@
 const farmerDB = require("../models/FarmerSchema");
+const otpDB = require("../models/otpSchema");
 const orderDB = require("../models/orderSchema");
 const logisticsDB = require("../models/logisticsSchema");
 
 // farmer registration controller BODY
 const registerFarmer = async (req, res) => {
+
   try {
     const farmerRegistrationData = req.body;
     const farmerDoc = await farmerDB.create(farmerRegistrationData);
@@ -16,9 +18,49 @@ const registerFarmer = async (req, res) => {
   } catch (err) {
     res.status(400).send({ userId: null, userType: "farmer" });
     // logging for debugging
-    console.log("farmerRegister ERROR:", err.message);
+    console.log("farmerRegister ERROR:", err.message) 
   }
-};
+}
+
+//farmer Login controller
+
+const farmerLogin = async (req , res ) => {
+  try{ 
+     const{ email , otp } = req.body;
+     const otpRecord = await otpDB.findOne({email , otp });
+     if(!otpRecord){
+      return res.status(401).send({ message : "Invalid otp or email " });
+     }
+     if( new Date() > otpRecord.expriresAt){
+      return res.status(401).send({message : "OTP Has  Expired "});  
+    }
+    const farmerDoc = await farmerDB.findOne({email});
+    if(!farmerDoc){
+      return res.status(401).send({ message : "Farmer User NOt Found "})
+    }
+    await otpDB.deleteOne({email});
+    res.status(200).send({userId : farmerDoc._id , userType:"farmer"});
+  }catch(err){
+    res.status(401).send({error : true });
+    console.error("farmerLogin ERROR :" , err.message);
+}
+}
+
+//update farmer order status
+const updateFarmerOrderStatus = async (req , res ) => {
+  try{
+    const { orderId,status } = req.body;
+    const orderDoc = await orderDB.updateOne(
+      { orderId: orderId },
+      { $set: { orderStatus: status } }
+    );
+    res.status(200).send({isUpdated:orderDoc.acknowledged});
+  }catch(err){
+    res.status(401).send({error : true});
+    console.error("UPDATE FARMER ORDER STATUS ERROR ", err.message ); 
+  }
+}
+
 
 // farmer create produce controller BODY
 const createProduce = async (req, res) => {
@@ -291,4 +333,6 @@ module.exports = {
   getLogisticsPartners,
   bookLogisticsPartner,
   getFarmerOrederAnalyticsHistory,
+  farmerLogin,
+  updateFarmerOrderStatus
 };

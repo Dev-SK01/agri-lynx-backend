@@ -27,4 +27,17 @@ router.route("/cancelled").post(ownerController.getCanceledOrder);
 
 router.route("/getownerdata").post(ownerController.getOwnerData);
 
+// Owner Produce List Search
+router.route("/search").post(ownerController.searchProduceList);
+
+// Owner Orderd
+router.route("/ordered").post(ownerController.ordered);
+
+// Owner login
+router.route("/login").post(ownerController.ownerLogin);
+
+// cancel order 
+router.route("/cancelorder").post(ownerController.cancelOrder);
+
+
 module.exports = router;
