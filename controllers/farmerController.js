@@ -18,8 +18,9 @@ const registerFarmer = async (req, res) => {
   } catch (err) {
     res.status(400).send({ userId: null, userType: "farmer" });
     // logging for debugging
-    console.log("farmerRegister ERROR:", err.message
+    console.log("farmerRegister ERROR:", err.message) 
   }
+}
 
 //farmer Login controller
 
