@@ -39,5 +39,7 @@ router.route("/login").post(ownerController.ownerLogin);
 // cancel order 
 router.route("/cancelorder").post(ownerController.cancelOrder);
 
+// get all produce list
+router.route("/allproduce").get(ownerController.getAllProduceList);
 
 module.exports = router;

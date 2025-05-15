@@ -24,7 +24,7 @@ const getPurchasedFromSameDistrict = async (req, res) => {
         const matchingFarmers = await farmerDB.find({ district: district });
 
         if (matchingFarmers.length === 0) {
-            return res.status(401).json([]);
+            return res.status(200).json([]);
         }
         const purchasedList = matchingFarmers.flatMap(farmer => farmer.produceList || []);
         res.status(200).json({
@@ -33,7 +33,7 @@ const getPurchasedFromSameDistrict = async (req, res) => {
         });
 
     } catch (err) {
-        console.error("ERROR: ", err.message);
+        console.error("GET PRODUCE LIST DISTRICT ERROR: ", err.message);
         res.status(401).json({ error: true, message: "Server error" });
     }
 };
@@ -164,8 +164,43 @@ const ownerLogin = async (req, res) => {
     }
 };
 
+// owner cancel order
 
+const cancelOrder = async (req, res) => {
+    try {
+        const { orderId } = req.body;
+        const orderDoc = await orderDB.findOne({orderId: orderId});
+        console.log("orderDoc", orderDoc);
+        if (!orderDoc) {
+            return res.status(404).json({ error: true, message: "Order not found" });
+        }
+        // setting order status to cancelled
+        orderDoc.orderStatus = "cancelled";
+        await orderDoc.save();
+        res.status(200).json({ message: "Order cancelled successfully", isCancelled: true });
+    } catch (err) {
+        res.status(500).json({ isCancelled: false, message: err.message });
+    }
+}
 
+// get all produce list
+const getAllProduceList = async (req, res) => {
+    try {
+        const matchingFarmers = await farmerDB.find();
+        if (matchingFarmers.length === 0) {
+            return res.status(200).json([]);
+        }
+        const purchasedList = matchingFarmers.flatMap(farmer => farmer.produceList || []);
+        res.status(200).json({
+            message: "Purchased list from matching district farmers",
+            purchasedList
+        });
+
+    } catch (err) {
+        console.error("GET ALL PRUDUCE LIST ERROR: ", err.message);
+        res.status(401).json({ error: true, message: "Server error" });
+    }
+}
 module.exports = {
     registerOwner,
     getPurchasedFromSameDistrict,
@@ -173,8 +208,10 @@ module.exports = {
     getOrderedOrder,
     getDeliveredOrder,
     getCanceledOrder,
-    getOwnerData
+    getOwnerData,
     searchProduceList,
     ordered,
     ownerLogin,
+    cancelOrder,
+    getAllProduceList,
 };

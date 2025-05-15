@@ -13,8 +13,5 @@ const OwnerSchema = new mongoose.Schema({
     state: { type: String, required: true },
     
 });
-
-
-  
-
- module.exports = mongoose.model("OwnerSchema", OwnerSchema);
+// owner produce schema
+ module.exports = mongoose.model("owners", OwnerSchema);

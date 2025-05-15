@@ -179,7 +179,7 @@ module.exports = {
     logisticVerifyCustomer,
     updateBookingStatus,
     logisticsPartnerRegistration,
-    getLogisticData
+    getLogisticData,
     ordered,
     getLogisticDetails,
     updateLogisticOrderStatus,
