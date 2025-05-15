@@ -1,4 +1,4 @@
-const OwnerDB = require("../models/OwnerSchema");
+const ownerDB = require("../models/OwnerSchema");
 const farmerDB = require("../models/FarmerSchema");
 const orderDB = require("../models/orderSchema");
 
@@ -7,7 +7,7 @@ const orderDB = require("../models/orderSchema");
 const registerOwner = async (req, res) => {
     try {
         const ownerRegistrationData = req.body;
-        const ownerDoc = await OwnerDB.create(ownerRegistrationData);
+        const ownerDoc = await ownerDB.create(ownerRegistrationData);
         res.status(200).send({ userId: ownerDoc._id, userType: "market" });
         console.log("Owner Registered : ", { userId: ownerDoc._id, userType: "market" });
     } catch (err) {
@@ -49,10 +49,19 @@ const placeOrder = async (req, res) => {
     }
 };
 
+const getOrderedOrder = async (req, res) =>{
+    try {
+        const {ownerId} = req.body
+        const orderedOrders = await orderDB.find({ "customer.customerId":ownerId,orderStatus:"ordered" });
+        res.status(200).json(orderedOrders);
+    } catch (err) {
+        res.status(401).json({ error: true});
+    } 
+}
 // owner delivered orders
 const getDeliveredOrder = async (req, res) =>{
     try {
-const {ownerId} = req.body
+        const {ownerId} = req.body
         const deliveredOrders = await orderDB.find({ "customer.customerId":ownerId,orderStatus:"delivered" });
         res.status(200).json(deliveredOrders);
     } catch (err) {
@@ -60,7 +69,7 @@ const {ownerId} = req.body
     } 
 }
 
-// woner cancelled orders
+// owner cancelled orders
 const getCanceledOrder = async (req, res) =>{
     try {
         const {ownerId} = req.body;
@@ -71,11 +80,25 @@ const getCanceledOrder = async (req, res) =>{
     } 
 }
 
+// owner get data
+ const getOwnerData = async (req, res) => {
+   try {
+     const { ownerId } = req.body;
+     const ownerDoc = await  ownerDB.findById(ownerId);
+     res.status(200).send(ownerDoc);
+   } catch (err) {
+     res.status(400).send({ error: true });
+     console.error("GET owner DATA ERROR : ", err.message);
+   }
+ };
+
 
 module.exports = {
     registerOwner,
     getPurchasedFromSameDistrict,
     placeOrder,
+    getOrderedOrder,
     getDeliveredOrder,
     getCanceledOrder,
+    getOwnerData
 };

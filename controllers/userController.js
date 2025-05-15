@@ -18,7 +18,7 @@ const checkRegisteredUser = async (req, res) => {
         userData.length ? res.status(200).send({ isRegistered: true }) : res.status(200).send({ isRegistered: false });
         res.end();
       } else {
-        const userData = logisticsDB.find({ email: email });
+        const userData = await logisticsDB.find({ email: email });
         // sending res to client if user email present
         userData.length ? res.status(200).send({ isRegistered: true }) : res.status(200).send({ isRegistered: false });
         res.end();

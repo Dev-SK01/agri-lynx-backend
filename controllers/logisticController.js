@@ -59,6 +59,7 @@ const logisticVerifyCustomer = async (req, res) => {
         }
 
         order.orderStatus = "delivered";
+        
         await order.save();
 
         await otpDB.deleteOne({ email, otp });
@@ -73,50 +74,61 @@ const logisticVerifyCustomer = async (req, res) => {
 
 const updateBookingStatus = async (req, res) => {
     try {
-        const { orderId, action } = req.query;
-
-        if (!orderId || !action) {
-            return res.status(401).json({ error: ' Missing orderId or action '});
-        }
-
-        const order = await orders.findOne({ orderId }); 
-
-        if (!order) {
-            return res.status(401).json({ error: 'Order not found'});
-        }
-
-        if (order.bookingStatus !== 'pending') {
-            return res.status(401).json({ error: ' Only pending bookings can be updated '});
-        }
-
-        if (action === 'accept') {
-            order.bookingStatus = 'accepted';
-        } else if (action === 'cancel') {
-            order.bookingStatus = 'cancelled';
-        } else {
-            return res.status(401).json({ error: 'Invalid action'});
-        }
-
-        await order.save();
-
-        return res.status(200).json({
-            message: `Booking ${action}ed successfully`,
-            error: false,
-            bookingStatus: order.bookingStatus,
-            orderId:  order.orderId
-        });
-
+      const { orderId, action } = req.body;
+  
+      if (!orderId || !action) {
+        return res.status(400).json({ error: "Missing orderId or action" });
+      }
+  
+      const order = await orders.findOne({ orderId });
+  
+      if (!order) {
+        return res.status(404).json({ error: "Order not found" });
+      }
+  
+      if (order.bookingStatus !== "pending") {
+        return res.status(400).json({ error: "Only pending bookings can be updated" });
+      }
+  
+      if (action === "accept") {
+        order.bookingStatus = "accepted";
+      } else if (action === "cancel") {
+        order.bookingStatus = "cancelled";
+      } else {
+        return res.status(400).json({ error: "Invalid action" });
+      }
+  
+      await order.save();
+  
+      return res.status(200).json({
+        message: `Booking ${action}ed successfully`,
+        error: false,
+        bookingStatus: order.bookingStatus,
+        orderId: order.orderId,
+      });
+  
     } catch (err) {
-        return res.status(401).json({ error: err.message, error: true });
+      return res.status(500).json({ error: err.message, error: true });
     }
+  };
+  
+
+const getLogisticData = async (req, res) => {
+  try {
+    const { logisticId } = req.body;
+    const logisticDoc = await  logisticsDB.findById(logisticId);
+    res.status(200).send(logisticDoc);
+  } catch (err) {
+    res.status(400).send({ error: true });
+    console.error("GET LOGISTIC DATA ERROR : ", err.message);
+  }
 };
-
-
 
 
 module.exports = {
     logisticLogin,
     logisticVerifyCustomer,
-    updateBookingStatus
+    updateBookingStatus,
     logisticsPartnerRegistration,
+    getLogisticData
 }

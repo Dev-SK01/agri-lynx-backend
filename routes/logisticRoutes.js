@@ -20,5 +20,7 @@ router.route("/register").post(logisticController.logisticsPartnerRegistration);
 // logistics partner login
 router.route("/login").post(logisticController.logisticLogin);
 
+router.route("/getlogisticsdata").post(logisticController.getLogisticData);
+
 
 module.exports = router;
