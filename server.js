@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.use(express.urlencoded());
 
-const corsOption = { origin: ["http://localhost:8080"] };
+const corsOption = { origin: ["http://localhost:8080","https://agri-lynx.web.app"] };
 
 app.use(cors(corsOption));
 
