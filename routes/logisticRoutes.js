@@ -18,7 +18,10 @@ router.route("/updatebookingstatus").post (logisticController.updateBookingStatu
 router.route("/register").post(logisticController.logisticsPartnerRegistration);
 
 // logistics partner login
-router.route("/login").post(logisticController.logisticLogin);
+router.route("/login").post(logisticController.logisticLogin);\
+
+// get logisticsdata
+router.route("/getlogisticsdata").post(logisticController.getLogisticData);
 
 // logistic orderd
 router.route("/ordered").post(logisticController.ordered);
@@ -28,8 +31,6 @@ router.route("/details").post(logisticController.getLogisticDetails);
 
 // update logistic order status
 router.route("/updatestatus").post(logisticController.updateLogisticOrderStatus);
-
-
 
 
 

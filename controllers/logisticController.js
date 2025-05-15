@@ -58,6 +58,7 @@ const logisticVerifyCustomer = async (req, res) => {
         }
 
         order.orderStatus = "delivered";
+        
         await order.save();
 
         await otpDB.deleteOne({ email, otp });
@@ -107,6 +108,18 @@ const updateBookingStatus = async (req, res) => {
     } catch (err) {
         return res.status(401).json({ message: err.message, error: true });
     }
+  };
+  
+
+const getLogisticData = async (req, res) => {
+  try {
+    const { logisticId } = req.body;
+    const logisticDoc = await  logisticsDB.findById(logisticId);
+    res.status(200).send(logisticDoc);
+  } catch (err) {
+    res.status(400).send({ error: true });
+    console.error("GET LOGISTIC DATA ERROR : ", err.message);
+  }
 };
 
 //logistic partner ordered
@@ -161,13 +174,12 @@ const updateLogisticOrderStatus = async (req , res ) => {
         
 
 
-
-
 module.exports = {
     logisticLogin,
     logisticVerifyCustomer,
     updateBookingStatus,
     logisticsPartnerRegistration,
+    getLogisticData
     ordered,
     getLogisticDetails,
     updateLogisticOrderStatus,

@@ -16,11 +16,16 @@ router.route("/produce").post(ownerController.getPurchasedFromSameDistrict);
 // Owner Place Order
 router.route("/placeorder").post(ownerController.placeOrder);
 
+//owner Get ordered order
+router.route("/ordered").post(ownerController.getOrderedOrder);
+
 // Owner Get Delivered Orders
 router.route("/delivered").post(ownerController.getDeliveredOrder);
 
 // Owner Cancled Order
-router.route("/canceled").post(ownerController.getCanceledOrder);
+router.route("/cancelled").post(ownerController.getCanceledOrder);
+
+router.route("/getownerdata").post(ownerController.getOwnerData);
 
 // Owner Produce List Search
 router.route("/search").post(ownerController.searchProduceList);
