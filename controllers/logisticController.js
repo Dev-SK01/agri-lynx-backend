@@ -126,7 +126,7 @@ const getLogisticData = async (req, res) => {
 const ordered = async (req, res) => {
     try {
         const { logisticsId } = req.body
-        const logisticOrderd = await orderDB.find({ "logistics.logisticsId": logisticsId, orderStatus: "booked" });
+        const logisticOrderd = await orderDB.find({ "logistics.logisticsId": logisticsId, bookingStatus: "booked" });
         res.status(200).json(logisticOrderd);
     } catch (err) {
         res.status(401).json({ error: true });
