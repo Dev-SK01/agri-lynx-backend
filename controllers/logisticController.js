@@ -130,7 +130,7 @@ const getLogisticsOrders = async (req, res) => {
             const logisticOrderDoc = await orderDB.find({ "logistics.logisticsId": logisticsId, bookingStatus: status });
             return res.status(200).json(logisticOrderDoc);
         }else{
-            const logisticOrderDoc = await orderDB.find({ "logistics.logistics": logisticsId, orderStatus: status });
+            const logisticOrderDoc = await orderDB.find({ "logistics.logisticsId": logisticsId, orderStatus: status });
             return res.status(200).json(logisticOrderDoc);
         }
     } catch (err) {
