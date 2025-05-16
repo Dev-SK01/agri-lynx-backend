@@ -85,7 +85,7 @@ const updateBookingStatus = async (req, res) => {
             return res.status(401).json({ message: 'Order not found',error:true});
         }
 
-        if (order.bookingStatus !== 'pending') {
+        if (order.bookingStatus !== 'booked') {
             return res.status(401).json({ message: ' Only pending bookings can be updated',errror:true});
         }
         if (action === 'accept') {
