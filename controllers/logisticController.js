@@ -73,7 +73,7 @@ const logisticVerifyCustomer = async (req, res) => {
 
 const updateBookingStatus = async (req, res) => {
     try {
-        const { orderId, action } = req.query;
+        const { orderId, action } = req.body;
 
         if (!orderId || !action) {
             return res.status(401).json({ error: ' Missing orderId or action '});
@@ -127,7 +127,7 @@ const getLogisticsOrders = async (req, res) => {
     try {
         const { logisticsId , status} = req.body;
         if(status === "booked"){
-            const logisticOrderDoc = await orderDB.find({ "logistics.logistics": logisticsId, bookingStatus: status });
+            const logisticOrderDoc = await orderDB.find({ "logistics.logisticsId": logisticsId, bookingStatus: status });
             return res.status(200).json(logisticOrderDoc);
         }else{
             const logisticOrderDoc = await orderDB.find({ "logistics.logistics": logisticsId, orderStatus: status });

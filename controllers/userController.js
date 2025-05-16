@@ -25,7 +25,7 @@ const checkRegisteredUser = async (req, res) => {
     }
   } catch (err) {
     res.status(400).send({ isRegistered: false });
-    console.error("CHECK USER ERROR:", err.message);
+    console.error("CHECK USER ERROR: ", err.message);
   }
 }
 
