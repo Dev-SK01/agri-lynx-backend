@@ -23,8 +23,8 @@ router.route("/login").post(logisticController.logisticLogin);
 // get logisticsdata
 router.route("/getlogisticsdata").post(logisticController.getLogisticData);
 
-// logistic orderd
-router.route("/ordered").post(logisticController.ordered);
+// logistic orderd 
+router.route("/orders").post(logisticController.getLogisticsOrders);
 
 // logistic partner details
 router.route("/details").post(logisticController.getLogisticDetails);

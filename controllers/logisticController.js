@@ -123,12 +123,18 @@ const getLogisticData = async (req, res) => {
 };
 
 //logistic partner ordered
-const ordered = async (req, res) => {
+const getLogisticsOrders = async (req, res) => {
     try {
-        const { logisticsId } = req.body
-        const logisticOrderd = await orderDB.find({ "logistics.logisticsId": logisticsId, bookingStatus: "booked" });
-        res.status(200).json(logisticOrderd);
+        const { logisticsId , status} = req.body;
+        if(status === "booked"){
+            const logisticOrderDoc = await orderDB.find({ "logistics.logistics": logisticsId, bookingStatus: status });
+            return res.status(200).json(logisticOrderDoc);
+        }else{
+            const logisticOrderDoc = await orderDB.find({ "logistics.logistics": logisticsId, orderStatus: status });
+            return res.status(200).json(logisticOrderDoc);
+        }
     } catch (err) {
+        console.log("LOGISTICS ORDERS ERROR : " ,err.message);
         res.status(401).json({ error: true });
     }
 }
@@ -171,7 +177,6 @@ const updateLogisticOrderStatus = async (req , res ) => {
  
 
 }
-        
 
 
 module.exports = {
@@ -180,7 +185,7 @@ module.exports = {
     updateBookingStatus,
     logisticsPartnerRegistration,
     getLogisticData,
-    ordered,
+    getLogisticsOrders,
     getLogisticDetails,
     updateLogisticOrderStatus,
 }
