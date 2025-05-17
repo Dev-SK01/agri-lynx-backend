@@ -8,7 +8,7 @@
 	"EMAIL" : "agrilynxteam@gmail.com",
 	"PASS" : "oclyqbusghjksfwa",
 	"CLOUD_DB":"mongodb+srv://agrilynxteam:gNETOaE0ehr12j6D@agri-lynx.x2pzfu6.mongodb.net/?retryWrites=true&w=majority&appName=agri-lynx"
-},
+	},
 	"memory": 2048,
 	"scripts": {}
 }

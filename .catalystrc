@@ -10,11 +10,11 @@
   "projects": [
     {
       "idx": 1,
-      "id": "16660000000010080",
-      "name": "test-agri-lynx",
+      "id": "16660000000017011",
+      "name": "agri-lynx",
       "domain": {
-        "id": "50026095858",
-        "name": "test-agri-lynx-60040205886.development"
+        "id": "50027633461",
+        "name": "agri-lynx-60040205886.development"
       },
       "timezone": "Asia/Kolkata",
       "env": [

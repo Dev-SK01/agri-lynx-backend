@@ -15,16 +15,15 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 // middlewares
-app.use(express.json());
-
-app.use(express.urlencoded());
-
-const corsOption = { origin: ["http://localhost:8080","https://agri-lynx.web.app"] };
-
-app.use(cors(corsOption));
-
+app.use(cors({
+  origin:["http://localhost:8080","https://agri-lynx.web.app"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 // helmet headers configs
-app.use(helmet({xPoweredBy: false}));
+// app.use(helmet({xPoweredBy: false}));
+app.use(express.json());
+app.use(express.urlencoded());
 
 //  farmer routes 
 app.use("/farmer", farmerRoutes);
@@ -58,7 +57,7 @@ app.post("/verifyotp", otpController.verifyOtp);
 app.post("/login", userController.loginUser);
 
 
-app.listen(PORT, (err) => {
+app.listen(process.env.X_ZOHO_CATALYST_LISTEN_PORT || PORT, (err) => {
   if (err) {
     console.error(err.message);
 

@@ -8,7 +8,7 @@ const clientOptions = { serverApi:
 
 const connectDB = async () => {
     try{
-       const connection = await mongoose.connect(process.env.LOCAL_DB,clientOptions);
+       const connection = await mongoose.connect(process.env.CLOUD_DB,clientOptions);
        console.log("Database Conneted : ",connection.connections.length);
     }catch(err){
         console.error(err.message);
